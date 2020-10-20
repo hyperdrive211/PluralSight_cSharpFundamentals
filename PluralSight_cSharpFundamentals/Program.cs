@@ -15,7 +15,11 @@ namespace PluralSight_cSharpFundamentals
             book.AddGrade(30.0);
             book.AddGrade(60.0);
             book.AddGrade(77.5);
-            book.ShowStats(); 
+            var stats = book.GetStats();
+
+            Console.WriteLine($"The lowest grade is {stats.Low}");
+            Console.WriteLine($"The Highest grade is {stats.High}");
+            Console.WriteLine($"The aerage grade is {stats.Average:N1}"); 
         }
 
        

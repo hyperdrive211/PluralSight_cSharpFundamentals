@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PluralSight_cSharpFundamentals
 {
-    class Book
+   public class Book
     {
         private List<double> grades;
         private string name; 
@@ -19,21 +19,21 @@ namespace PluralSight_cSharpFundamentals
             grades.Add(grade);
         }
 
-        public void ShowStats() {
-            var result = 0.0;
-            var highGrade = double.MinValue;
-            var lowGrade = double.MaxValue;
+        public Statistics GetStats() {
+
+            var result = new Statistics();
+            result.Average = 0.0; 
+            result.High = double.MinValue;
+            result.Low = double.MaxValue;
 
             foreach (var num in grades) {
-                lowGrade = Math.Min(num, lowGrade);
-                highGrade = Math.Max(num, highGrade);
-                result += num;
+                result.Low = Math.Min(num, result.Low);
+                result.High = Math.Max(num, result.High);
+                result.Average += num;
             }
 
-            result /= grades.Count;
-            Console.WriteLine($"The lowest grade is {lowGrade}");
-            Console.WriteLine($"The highest grade is {highGrade}");
-            Console.WriteLine($"The average grade is {result:N1}"); 
+            result.Average /= grades.Count;
+            return result; 
         }
     }
 }
