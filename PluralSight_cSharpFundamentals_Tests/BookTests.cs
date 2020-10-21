@@ -4,10 +4,10 @@ using Xunit;
 
 namespace PluralSight_cSharpFundamentals_Tests
 {
-     public class UnitTest1
+     public class BookTests
     {
         [Fact]
-        public void Test1() {
+        public void BookCalculatesStats() {
             //arrange 
             var book = new Book("Time to test some code");
             book.AddGrade(89.1);
