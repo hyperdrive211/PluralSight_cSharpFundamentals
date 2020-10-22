@@ -20,8 +20,24 @@ namespace PluralSight_cSharpFundamentals
             Console.WriteLine("Welcome to this program");
             Console.WriteLine("Please enter a grade or press q to quit");
             while (input != "q") {
-                input = Console.ReadLine();
-                book.AddGrade(double.Parse(input));
+                try
+                {
+                    input = Console.ReadLine();
+                    book.AddGrade(double.Parse(input));
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (FormatException fe)
+                {
+                    Console.WriteLine(fe.Message);
+                }
+                finally { 
+                    //.. This code will always run
+                    //good for taking precautions to protect data and close connections
+                    Console.WriteLine("**")
+                }
             }
             Console.WriteLine($"The amount of grades you have entered: {book.grades.Count}");
             DisplayStats(book.GetStats());

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 
 namespace PluralSight_cSharpFundamentals
 {
@@ -24,7 +25,7 @@ namespace PluralSight_cSharpFundamentals
                 grades.Add(grade);
             }
             else {
-                Console.Write("Invalid value");
+                throw new ArgumentException($"Invalid{nameof(grade)}");
             }
             
         }
