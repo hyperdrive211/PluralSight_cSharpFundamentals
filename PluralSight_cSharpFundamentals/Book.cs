@@ -6,22 +6,35 @@ using System.Threading;
 
 namespace PluralSight_cSharpFundamentals
 {
-    public delegate void GradeAddedDelegate(Object sender, EventArgs args); 
-   public class Book
+    public delegate void GradeAddedDelegate(Object sender, EventArgs args);
+
+
+    public abstract class BookBase : NamedObject{
+        public BookBase(string name) : base(name) { 
+        }
+        public abstract void AddGrade(double grade);
+    }
+    public class NamedObject {
+
+        public NamedObject(string name) {
+            Name = name; 
+        }
+        public string Name {
+            get;
+            set; 
+        }
+    }
+
+   public class Book: NamedObject
     {
         public List<double> grades;
         private string name; 
 
-        public Book(string name) {
+        public Book(string name) : base(name)  {
             this.name = name; 
             grades = new List<double>(); 
         }
 
-
-        public string Name {
-            get; 
-            set; 
-        }
         public void AddLetterGrade(char letter) { 
         }
      
