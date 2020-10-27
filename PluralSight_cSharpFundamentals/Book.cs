@@ -25,6 +25,15 @@ namespace PluralSight_cSharpFundamentals
         }
     }
 
+    public interface IBook {
+        void AddGrade(double grade);
+
+        Statistics GetStatistics(); 
+
+        string Name { get;  }
+        event GradeAddedDelegate GradeAdded; 
+    }
+
    public class Book: NamedObject
     {
         public List<double> grades;
@@ -38,7 +47,7 @@ namespace PluralSight_cSharpFundamentals
         public void AddLetterGrade(char letter) { 
         }
      
-        public void AddGrade(double grade) {
+        public  void AddGrade(double grade) {
             if (grade <= 100 && grade >= 0)
             {
                 grades.Add(grade);
