@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -8,23 +9,57 @@ namespace PluralSight_cSharpFundamentals
 {
     public delegate void GradeAddedDelegate(Object sender, EventArgs args);
 
+    public class DiskBook : Book {
 
-    public abstract class BookBase : NamedObject{
-        public BookBase(string name) : base(name) { 
+        public DiskBook(string name) : base(name) { 
         }
-        public abstract void AddGrade(double grade);
+
+        public override event GradeAddedDelegate GradeAdded;
+
+        public override void AddGrade(double grade)
+        {
+            using (var writer = File.AppendText($"{Name}.txt")) {
+                writer.WriteLine(grade);
+                if (GradeAdded != null) {
+                    GradeAdded(this, new EventArgs()); 
+                }
+            }      
+        }
+
+        public override Statistics GetStatistics()
+        {
+            return base.GetStatistics();
+        }
+
+
     }
-    public class NamedObject {
 
-        public NamedObject(string name) {
-            Name = name; 
+    public class NamedObject
+    {
+
+        public NamedObject(string name)
+        {
+            Name = name;
         }
-        public string Name {
+        public string Name
+        {
             get;
-            set; 
+            set;
         }
     }
 
+    public abstract class Book : NamedObject, IBook{
+        public Book(string name) : base(name) { 
+        }
+
+        public abstract event GradeAddedDelegate GradeAdded; 
+        public abstract void AddGrade(double grade);
+
+        public virtual Statistics GetStatistics() {
+            throw new NotImplementedException(); 
+        }
+    }
+    
     public interface IBook {
         void AddGrade(double grade);
 
@@ -34,12 +69,12 @@ namespace PluralSight_cSharpFundamentals
         event GradeAddedDelegate GradeAdded; 
     }
 
-   public class Book: NamedObject
+   public class InMemoryBook: Book
     {
         public List<double> grades;
         private string name; 
 
-        public Book(string name) : base(name)  {
+        public InMemoryBook(string name) : base(name)  {
             this.name = name; 
             grades = new List<double>(); 
         }
@@ -47,7 +82,7 @@ namespace PluralSight_cSharpFundamentals
         public void AddLetterGrade(char letter) { 
         }
      
-        public  void AddGrade(double grade) {
+        public override void AddGrade(double grade) {
             if (grade <= 100 && grade >= 0)
             {
                 grades.Add(grade);
@@ -58,9 +93,9 @@ namespace PluralSight_cSharpFundamentals
             
         }
 
-        public event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate GradeAdded;
 
-        public Statistics GetStats() {
+        public override Statistics GetStatistics() {
 
             var result = new Statistics();
             result.Average = 0.0; 

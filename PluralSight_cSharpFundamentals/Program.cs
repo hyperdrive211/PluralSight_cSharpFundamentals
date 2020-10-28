@@ -12,12 +12,14 @@ namespace PluralSight_cSharpFundamentals
         static void Main(string[] args)
         {
 
-            Book book = new Book("Our Book Object");
+            DiskBook book = new DiskBook("Our Book Object");
             // ..getting the user to input grades
-            EnterGrades(book); 
+            EnterGrades(book);
+
+           
         }
 
-        private static void EnterGrades(Book book) {
+        private static void EnterGrades(DiskBook book) {
             string input = "";
             Console.WriteLine("Welcome to this program");
             Console.WriteLine("Please enter a grade or press q to quit");
@@ -44,8 +46,8 @@ namespace PluralSight_cSharpFundamentals
                     Console.WriteLine("**");
                 }
             }
-            Console.WriteLine($"The amount of grades you have entered: {book.grades.Count}");
-            DisplayStats(book.GetStats());
+          
+            DisplayStats(book.GetStatistics());
         }
         static void DisplayStats(Statistics stats)
         {
