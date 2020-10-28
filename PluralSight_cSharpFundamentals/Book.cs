@@ -28,7 +28,17 @@ namespace PluralSight_cSharpFundamentals
 
         public override Statistics GetStatistics()
         {
-            return base.GetStatistics();
+            Statistics result = new Statistics();
+            using (var reader = File.OpenText($"{Name}.txt")) {
+                var line = reader.ReadLine();
+                while (line != null) {
+                    var number = double.Parse(line);
+                    result.Add(number);
+                    line = reader.ReadLine(); 
+                }
+            }
+
+            return result; 
         }
 
 
@@ -97,37 +107,12 @@ namespace PluralSight_cSharpFundamentals
 
         public override Statistics GetStatistics() {
 
-            var result = new Statistics();
-            result.Average = 0.0; 
-            result.High = double.MinValue;
-            result.Low = double.MaxValue;
+            Statistics result = new Statistics();
 
-            foreach (var num in grades) {
-                result.Low = Math.Min(num, result.Low);
-                result.High = Math.Max(num, result.High);
-                result.Average += num;
+            for (int i = 0; i < grades.Count; i++) {
+                result.Add(grades[i]); 
             }
 
-            result.Average /= grades.Count;
-
-            switch (result.Average) {
-                case var d when d >= 90.0:
-                    result.Letter = 'A';
-                    break;
-                case var d when d >= 80.0:
-                    result.Letter = 'B';
-                    break;
-                case var d when d >= 70.0:
-                    result.Letter = 'C';
-                    break;
-                case var d when d >= 60:
-                    result.Letter = 'D';
-                    break;
-                default:
-                    result.Letter = 'F';
-                    break;
-
-            }
             return result; 
         }
     }
